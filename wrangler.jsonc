@@ -1,15 +1,13 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "qamrah",
-  "main": "worker/index.ts",
   "compatibility_date": "2026-09-30",
 
-  // The built site is served straight from the edge. A request that matches a
-  // file in dist/ never reaches the Worker, so the only code that runs per
-  // request is the rating endpoint below.
+  // A pure static site: every request is answered from the edge by a file in
+  // dist/. There is no Worker script, so no code runs per request at all.
   "assets": {
     "directory": "./dist",
-    "binding": "ASSETS"
+    "not_found_handling": "404-page"
   },
 
   "observability": {

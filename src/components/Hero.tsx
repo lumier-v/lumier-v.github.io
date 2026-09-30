@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { CONTACT } from '@/data/menu'
 import { useLang } from '@/lib/i18n'
-import { useRating } from '@/lib/rating'
 
 /** Counts up once, when the figures first scroll into view. */
 function Stat({ target, decimals, label }: { target: number; decimals: number; label: string }) {
@@ -36,8 +35,13 @@ function Stat({ target, decimals, label }: { target: number; decimals: number; l
 
   return (
     <div ref={ref} className="flex flex-col items-center gap-0.5">
-      <span className="text-moon text-2xl font-bold tabular-nums">
-        {n(value.toFixed(decimals))}
+      {/* Forced left-to-right so the plus always sits after the digits; in an
+          RTL paragraph it would otherwise flip to the wrong side of the number. */}
+      <span dir="ltr" className="flex items-baseline gap-px">
+        <span className="text-moon text-2xl font-bold tabular-nums">
+          {n(value.toFixed(decimals))}
+        </span>
+        <span className="text-gold text-lg font-bold">+</span>
       </span>
       <span className="text-moon-2 text-xs">{label}</span>
     </div>
@@ -46,7 +50,6 @@ function Stat({ target, decimals, label }: { target: number; decimals: number; l
 
 export function Hero() {
   const { t } = useLang()
-  const rating = useRating()
 
   return (
     <section id="home" className="relative overflow-hidden">
@@ -92,21 +95,9 @@ export function Hero() {
           className="animate-rise mt-2 flex items-center gap-6"
           style={{ animationDelay: '360ms' }}
         >
-          {/* Keyed on the figure so the count-up replays once the live numbers
-              land, instead of the value jumping without explanation. */}
-          <Stat
-            key={`r-${rating.rating}`}
-            target={rating.rating}
-            decimals={1}
-            label={t('googleRating')}
-          />
+          <Stat target={Number(CONTACT.ratingFloor)} decimals={1} label={t('googleRating')} />
           <span className="bg-rule h-8 w-px" />
-          <Stat
-            key={`c-${rating.count}`}
-            target={rating.count}
-            decimals={0}
-            label={t('reviews')}
-          />
+          <Stat target={Number(CONTACT.reviewFloor)} decimals={0} label={t('reviews')} />
         </div>
       </div>
     </section>

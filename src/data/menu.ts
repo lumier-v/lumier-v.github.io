@@ -158,6 +158,8 @@ export const CONTACT = {
   tiktok: 'https://www.tiktok.com/@qamrah.coffee',
   store: 'https://salla.sa/qamrahcoffee',
   maps: 'https://www.google.com/maps/search/?api=1&query=26.0235295,44.9579574',
-  rating: '4.6',
-  reviewCount: '154',
+  // Stated as floors, not snapshots: shown as "4.5+" and "150+" so they
+  // stay true as the real figures grow, with no feed to keep in sync.
+  ratingFloor: '4.5',
+  reviewFloor: '150',
 } as const
