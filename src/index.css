@@ -1,0 +1,112 @@
+@import 'tailwindcss';
+
+/* ── Qamrah at Night ───────────────────────────────────────────────────────
+   A single committed dark palette. The moon is the only light source on the
+   page, so everything else is warm near-black with cream type and one gold
+   accent. There is no light mode by design: the direction is nocturnal.
+   ────────────────────────────────────────────────────────────────────────── */
+@theme {
+  --color-night: #15120e;
+  --color-night-2: #0c0a08;
+  --color-night-3: #1d1913;
+  --color-moon: #efe5d3;
+  --color-moon-2: #b6a88c;
+  --color-gold: #d9be87;
+  --color-rule: rgba(239, 229, 211, 0.16);
+  --color-rule-strong: rgba(239, 229, 211, 0.28);
+
+  /* Arabic glyphs resolve to the first family, Latin falls through to the
+     second — so one stack serves both scripts without a language switch. */
+  --font-display: 'Reem Kufi', 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+
+  --animate-moon-glow: moon-glow 1.8s ease-in-out infinite;
+  --animate-rise: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes moon-glow {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 5px 0 rgba(217, 190, 135, 0.35);
+  }
+  50% {
+    transform: scale(1.4);
+    box-shadow: 0 0 11px 2px rgba(217, 190, 135, 0.7);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    scrollbar-color: var(--color-rule-strong) transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-night);
+    color: var(--color-moon);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  :where(h1, h2, h3) {
+    font-family: var(--font-display);
+    text-wrap: balance;
+    line-height: 1.35;
+  }
+
+  :where(a, button):focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-night);
+  }
+}
+
+@layer utilities {
+  /* The NASA frames ship on black. Clipping to the disc removes the square
+     geometrically — blending alone is unreliable once an ancestor creates a
+     stacking context — and the screen blend then clears any black left inside. */
+  .moon-disc {
+    clip-path: circle(47% at 50% 50%);
+    mix-blend-mode: screen;
+  }
+
+  /* The wordmark is dark brown artwork. A plain invert turns it clinical white,
+     so warm it back toward the cream the rest of the page uses. */
+  .logo-on-night {
+    filter: invert(1) sepia(0.35) saturate(0.55) brightness(1.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
