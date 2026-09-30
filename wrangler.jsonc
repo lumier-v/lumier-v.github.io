@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "qamrah",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-30",
+
+  // The built site is served straight from the edge. A request that matches a
+  // file in dist/ never reaches the Worker, so the only code that runs per
+  // request is the rating endpoint below.
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}
