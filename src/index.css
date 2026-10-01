@@ -15,37 +15,144 @@
   --color-rule: rgba(239, 229, 211, 0.16);
   --color-rule-strong: rgba(239, 229, 211, 0.28);
 
-  /* Arabic glyphs resolve to the first family, Latin falls through to the
-     second — so one stack serves both scripts without a language switch. */
-  --font-display: 'Reem Kufi', 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+  /* The Latin family leads each stack and has no Arabic glyphs, so Arabic
+     falls through to the second — one stack serves both scripts without a
+     language switch. Both Arabic faces also carry Latin, which is why they
+     can't lead: they would take the English text too. Amiri is a classical
+     Naskh — calligraphic like the logo, with every dot clear of its stroke;
+     Alyamama is named for the old name of Najd. */
+  --font-display: 'Cormorant Garamond', 'Amiri', Georgia, serif;
+  --font-body: 'IBM Plex Sans', 'Alyamama', ui-sans-serif, system-ui, sans-serif;
 
-  --animate-moon-glow: moon-glow 1.8s ease-in-out infinite;
-  --animate-rise: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-logo-write: logo-write 2.8s cubic-bezier(0.45, 0, 0.25, 1) 0.3s both;
+  /* backwards, not both: once in, the element is its own again, so the hero's
+     moonlight can set its opacity from the scroll. */
+  --animate-unveil: unveil 1.2s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
-@keyframes moon-glow {
+/* The open-now dot breathing: it swells a little while its halo brightens.
+   Both glows on the page are built the same way — the halo is a shadow drawn
+   once on a layer of its own, and only its opacity breathes — because a
+   box-shadow that is itself animated is repainted every frame, for as long as
+   the page is open, and that was the costliest thing on it. */
+.animate-moon-glow {
+  position: relative;
+  box-shadow: 0 0 5px 0 rgba(217, 190, 135, 0.35);
+  animation: moon-swell 1.8s ease-in-out infinite;
+}
+.animate-moon-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 11px 2px rgba(217, 190, 135, 0.7);
+  opacity: 0;
+  pointer-events: none;
+  animation: halo 1.8s ease-in-out infinite;
+}
+
+@keyframes moon-swell {
   0%,
   100% {
     transform: scale(1);
-    box-shadow: 0 0 5px 0 rgba(217, 190, 135, 0.35);
   }
   50% {
     transform: scale(1.4);
-    box-shadow: 0 0 11px 2px rgba(217, 190, 135, 0.7);
   }
 }
 
-@keyframes rise {
+@keyframes halo {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* How much of each part of the split logo is written, 0–1 (see LogoMark).
+   Registered so they interpolate when animated, and start fully written. */
+@property --w {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+@property --l {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+@property --n {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+
+/* The header mark writing itself once, part by part, each part easing on its own. */
+@keyframes logo-write {
+  0% {
+    --w: 0;
+    --l: 0;
+    --n: 0;
+  }
+  45% {
+    --w: 1;
+    --l: 0;
+    --n: 0;
+  }
+  75% {
+    --w: 1;
+    --l: 1;
+    --n: 0;
+  }
+  100% {
+    --w: 1;
+    --l: 1;
+    --n: 1;
+  }
+}
+
+/* The hero's menu button breathing in moonlight: only its halo changes. The
+   button itself is already positioned, so the halo can sit on it. */
+.animate-menu-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 34px 5px rgba(217, 190, 135, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  animation: halo 3.2s ease-in-out infinite;
+}
+
+/* Text coming out of a soft blur into focus as it settles a few pixels up —
+   the way a word surfaces rather than slides in. */
+@keyframes unveil {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    filter: blur(8px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
+    filter: blur(0);
     transform: translateY(0);
   }
 }
+
+/* The same without the rise, for readers who have asked for reduced motion. */
+@keyframes unveil-still {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
 
 @layer base {
   :root {
@@ -63,7 +170,9 @@
     font-family: var(--font-body);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    /* clip, not hidden: hidden can make the body a scroll box of its own, and
+       iOS Safari then pins nothing — the header and the hero both scroll away. */
+    overflow-x: clip;
   }
 
   :where(h1, h2, h3) {
@@ -84,22 +193,6 @@
   }
 }
 
-@layer utilities {
-  /* The NASA frames ship on black. Clipping to the disc removes the square
-     geometrically — blending alone is unreliable once an ancestor creates a
-     stacking context — and the screen blend then clears any black left inside. */
-  .moon-disc {
-    clip-path: circle(47% at 50% 50%);
-    mix-blend-mode: screen;
-  }
-
-  /* The wordmark is dark brown artwork. A plain invert turns it clinical white,
-     so warm it back toward the cream the rest of the page uses. */
-  .logo-on-night {
-    filter: invert(1) sepia(0.35) saturate(0.55) brightness(1.18);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -108,5 +201,33 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* The open-now dot keeps breathing in light only: its halo, not its swell.
+     Nothing moves, so it stays within the request, and the badge still reads
+     as live rather than frozen. */
+  .animate-moon-glow {
+    animation: none !important;
+  }
+  .animate-moon-glow::after {
+    animation-duration: 1.8s !important;
+    animation-iteration-count: infinite !important;
+  }
+
+  /* As does the menu button's halo — light only. */
+  .animate-menu-glow::after {
+    animation-duration: 3.2s !important;
+    animation-iteration-count: infinite !important;
+  }
+
+  /* So does the header mark's writing: it only reveals, nothing moves. */
+  .animate-logo-write {
+    animation-duration: 2.8s !important;
+  }
+
+  /* And text still comes into focus, only without rising. */
+  .animate-unveil {
+    animation-name: unveil-still !important;
+    animation-duration: 1.2s !important;
   }
 }

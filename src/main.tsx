@@ -1,15 +1,26 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import App from './App.tsx'
-import { applyLangToDocument, detectLang } from './lib/i18n.tsx'
+import { applyLangToDocument, INITIAL_LANG } from './lib/i18n.tsx'
 import './index.css'
 
-// Settle the language before the first paint. index.html ships as ar/rtl, so an
-// English visitor would otherwise see one frame laid out right-to-left.
-applyLangToDocument(detectLang())
+// Settle the language before the first paint, whatever the page around it
+// shipped with: the site always opens in Arabic, right to left.
+applyLangToDocument(INITIAL_LANG)
 
-createRoot(document.getElementById('root')!).render(
+const container = document.getElementById('root')!
+const app = (
   <StrictMode>
     <App />
-  </StrictMode>,
+  </StrictMode>
 )
+
+// On the live site the container is empty and React builds the page. The
+// annotation copy ships the same markup pre-rendered, and React adopts those
+// nodes instead of replacing them — which is what keeps a comment anchored to
+// the element it was placed on.
+if (container.firstElementChild) {
+  hydrateRoot(container, app)
+} else {
+  createRoot(container).render(app)
+}

@@ -12,14 +12,17 @@ export const T = {
   // chrome
   skipToContent: { ar: 'تخطي إلى المحتوى', en: 'Skip to content' },
   menu: { ar: 'القائمة', en: 'Menu' },
+  menuShop: { ar: 'القائمة والمتجر', en: 'Menu & Shop' },
+  driveThru: { ar: 'اطلب وأنت بسيارتك', en: 'Order from your car' },
+  joinUs: { ar: 'سجّل وكن من عملائنا', en: 'Sign up and become a regular' },
   story: { ar: 'قصتنا', en: 'Our Story' },
   visit: { ar: 'زورونا', en: 'Visit Us' },
   openMenu: { ar: 'افتح القائمة', en: 'Open navigation' },
   closeMenu: { ar: 'أغلق القائمة', en: 'Close navigation' },
 
   // status
-  open: { ar: 'قمرة متاح لخدمتكم', en: 'Qamrah is open' },
-  closed: { ar: 'قمرة غير متاح الآن', en: 'Qamrah is closed' },
+  open: { ar: 'الفرع متاح لخدمتكم', en: 'The branch is open' },
+  closed: { ar: 'الفرع مغلق', en: 'The branch is closed' },
   checking: { ar: 'نتأكد من الدوام…', en: 'Checking hours…' },
 
   // hero
@@ -46,16 +49,16 @@ export const T = {
 
   // story
   storyTitle: {
-    ar: 'القهوة الزينة تبدأ قبل التحميص بمدة طويلة',
-    en: 'Great coffee starts long before roasting',
+    ar: 'قهوة قمرة تبدأ قبل التحميص بمدة طويلة',
+    en: 'Qamrah coffee starts long before roasting',
   },
   storyP1: {
-    ar: 'نختار حبوبنا من مزارع صغيرة نعرف أصحابها بأسمائهم، ونحمّصها بدفعات صغيرة عشان نقدر نوقف عند الدرجة اللي تطلع أحلى شي في كل أصل.',
-    en: 'We select our beans from small farms whose owners we know by name, and roast them in batches small enough that we can stop at the exact degree that brings out the best in each origin.',
+    ar: 'من اختيار الحبّة إلى لحظة التقديم، نمنح كل تفصيلة وقتها واهتمامها.',
+    en: 'From choosing the bean to the moment it is served, we give every detail the time and care it deserves.',
   },
   storyP2: {
-    ar: 'فريقنا يزن ويطحن كل كوب بدقة، لأن نص درجة حرارة أو جرام زيادة يغيّر الفنجان كله.',
-    en: 'Our team weighs and grinds every cup with precision, because half a degree or a single gram changes the whole cup.',
+    ar: 'فريقنا يزن ويطحن كل كوب بدقة، لأن نص درجة حرارة أو جرام زيادة يغيّر المذاق كله.',
+    en: 'Our team weighs and grinds every cup with precision, because half a degree or a single gram changes the whole taste.',
   },
 
   // visit
@@ -65,11 +68,12 @@ export const T = {
   },
   directions: { ar: 'الاتجاهات على الخريطة', en: 'Get Directions' },
   hours: { ar: 'أوقات الدوام', en: 'Opening Hours' },
+  contact: { ar: 'تواصل معنا', en: 'Get in Touch' },
   phone: { ar: 'جوال', en: 'Phone' },
   instagram: { ar: 'انستقرام', en: 'Instagram' },
   tiktok: { ar: 'تيك توك', en: 'TikTok' },
-  whatsapp: { ar: 'راسلنا على واتساب', en: 'Message us on WhatsApp' },
-  backToTop: { ar: 'ارجع لفوق', en: 'Back to top' },
+  snapchat: { ar: 'سناب شات', en: 'Snapchat' },
+  whatsapp: { ar: 'واتساب', en: 'WhatsApp' },
 
   // day labels
   sunWed: { ar: 'الأحد – الأربعاء', en: 'Sun – Wed' },
@@ -77,7 +81,7 @@ export const T = {
   fri: { ar: 'الجمعة', en: 'Friday' },
   sat: { ar: 'السبت', en: 'Saturday' },
   sunWedHours: { ar: '٧ ص – ١٢ ص', en: '7am – 12am' },
-  thuHours: { ar: 'فاتحين ٢٤ ساعة', en: 'Open 24 hours' },
+  thuHours: { ar: '٧ ص – ١ ص', en: '7am – 1am' },
   friHours: { ar: '١١:٣٠ ص – ١ ص', en: '11:30am – 1am' },
   satHours: { ar: '١١:٣٠ ص – ١٢ ص', en: '11:30am – 12am' },
 
@@ -105,37 +109,13 @@ interface LangContextValue {
 
 const LangContext = createContext<LangContextValue | null>(null)
 
-const STORAGE_KEY = 'qamrah:lang'
-
 /**
- * A visitor's own choice always wins; otherwise follow the browser. Anything
- * that is neither Arabic nor English falls back to Arabic — the shop is in
- * Al Ghat, so Arabic is the sensible default for a passer-by.
- *
- * Deterministic on purpose: main.tsx calls this before the first render to set
- * lang/dir, so an English visitor never sees a frame of right-to-left layout.
+ * Every visit opens in Arabic, whatever language the device is set to — the
+ * shop is in Al Ghat and speaks Arabic first. The switch changes the language
+ * for this visit only; nothing is remembered, so the next one opens in Arabic
+ * again.
  */
-export function detectLang(): Lang {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY)
-    if (saved === 'ar' || saved === 'en') return saved
-  } catch {
-    /* private windows and blocked storage both throw — fall through */
-  }
-
-  try {
-    const preferences = navigator.languages?.length ? navigator.languages : [navigator.language]
-    for (const tag of preferences) {
-      const code = tag?.toLowerCase() ?? ''
-      if (code.startsWith('ar')) return 'ar'
-      if (code.startsWith('en')) return 'en'
-    }
-  } catch {
-    /* ignore and use the default */
-  }
-
-  return 'ar'
-}
+export const INITIAL_LANG: Lang = 'ar'
 
 export function applyLangToDocument(lang: Lang): void {
   const root = document.documentElement
@@ -144,18 +124,7 @@ export function applyLangToDocument(lang: Lang): void {
 }
 
 export function LangProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(detectLang)
-
-  // Only an explicit switch is remembered, so a visitor who never touches the
-  // toggle keeps following their browser rather than being pinned by one visit.
-  const setLang = useCallback((next: Lang) => {
-    setLangState(next)
-    try {
-      localStorage.setItem(STORAGE_KEY, next)
-    } catch {
-      /* the choice still applies for this visit */
-    }
-  }, [])
+  const [lang, setLang] = useState<Lang>(INITIAL_LANG)
 
   useEffect(() => {
     applyLangToDocument(lang)

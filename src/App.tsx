@@ -1,10 +1,8 @@
 import { Nav } from '@/components/Nav'
 import { Hero } from '@/components/Hero'
-import { MenuSection } from '@/components/MenuSection'
 import { Story } from '@/components/Story'
 import { Visit } from '@/components/Visit'
-import { Footer } from '@/components/Footer'
-import { FloatingActions } from '@/components/FloatingActions'
+import { Signature } from '@/components/Signature'
 import { LangProvider, useLang } from '@/lib/i18n'
 
 function SkipLink() {
@@ -26,12 +24,10 @@ export default function App() {
       <Nav />
       <main>
         <Hero />
-        <MenuSection />
-        <Story />
         <Visit />
+        <Signature />
+        <Story />
       </main>
-      <Footer />
-      <FloatingActions />
     </LangProvider>
   )
 }

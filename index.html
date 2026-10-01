@@ -6,6 +6,9 @@
     <title>قمرة | قهوة مختصة</title>
     <meta name="description" content="قمرة - قهوة مختصة في الغاط، نحمّص حبوبنا بعناية بدفعات صغيرة. شوف المنيو، أوقات الدوام، وطريقة الوصول." />
     <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <!-- The hero drawing is the first thing painted large, but as a CSS background it
+         would only be found once the stylesheet has been applied. -->
+    <link rel="preload" as="image" type="image/webp" href="/img/hero-bg.webp" fetchpriority="high" />
     <meta name="theme-color" content="#15120E" />
 
     <meta property="og:type" content="website" />
@@ -19,7 +22,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Alyamama:wght@400..700&family=IBM+Plex+Sans:wght@400..700&family=Cormorant+Garamond:wght@300;400;600&display=swap"
     />
 
     <script type="application/ld+json">
@@ -40,11 +43,12 @@
         "sameAs": [
           "https://www.instagram.com/qamrah.coffee",
           "https://www.tiktok.com/@qamrah.coffee",
+          "https://snapchat.com/t/budjhXHL",
           "https://salla.sa/qamrahcoffee"
         ],
         "openingHoursSpecification": [
           { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday"], "opens": "07:00", "closes": "23:59" },
-          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "00:00", "closes": "23:59" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "07:00", "closes": "01:00" },
           { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "11:30", "closes": "01:00" },
           { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "11:30", "closes": "23:59" }
         ]

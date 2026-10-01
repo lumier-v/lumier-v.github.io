@@ -156,7 +156,10 @@ export const CONTACT = {
     encodeURIComponent('السلام عليكم، ودي أستفسر عن'),
   instagram: 'https://www.instagram.com/qamrah.coffee',
   tiktok: 'https://www.tiktok.com/@qamrah.coffee',
+  snapchat: 'https://snapchat.com/t/budjhXHL',
   store: 'https://salla.sa/qamrahcoffee',
+  /** The live menu. The page no longer carries its own copy. */
+  menu: 'https://qamrahcoffee.hubstation.ai/',
   maps: 'https://www.google.com/maps/search/?api=1&query=26.0235295,44.9579574',
   // Stated as floors, not snapshots: shown as "4.5+" and "150+" so they
   // stay true as the real figures grow, with no feed to keep in sync.

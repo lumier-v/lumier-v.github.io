@@ -4,14 +4,14 @@
  * which lets a session that crosses midnight (Friday runs to 1am Saturday) stay
  * one contiguous range instead of being split across two days.
  */
-export type MoonPhase = 'full' | 'half' | 'crescent'
+export type MoonPhase = 'full' | 'gibbous' | 'half' | 'crescent'
 
 export interface Schedule {
   /** Day label key, resolved through the dictionary. */
   id: string
   /** [start, end) in minutes of week, Sunday 00:00 = 0. */
   ranges: [number, number][]
-  /** Fuller moon = longer day. Thursday is 24h, so it gets the full moon. */
+  /** Fuller moon = longer day: full Thursday, gibbous Sunday–Wednesday, half Friday, crescent Saturday. */
   phase: MoonPhase
 }
 
@@ -20,7 +20,7 @@ const DAY = 1440
 export const SCHEDULE: Schedule[] = [
   {
     id: 'sunWed',
-    phase: 'half',
+    phase: 'gibbous',
     ranges: [
       [420, DAY], // Sun 07:00 → 24:00
       [DAY + 420, 2 * DAY],
@@ -28,8 +28,8 @@ export const SCHEDULE: Schedule[] = [
       [3 * DAY + 420, 4 * DAY],
     ],
   },
-  { id: 'thu', phase: 'full', ranges: [[4 * DAY, 5 * DAY]] }, // 24 hours
-  { id: 'fri', phase: 'crescent', ranges: [[5 * DAY + 690, 6 * DAY + 60]] }, // 11:30 → 01:00
+  { id: 'thu', phase: 'full', ranges: [[4 * DAY + 420, 5 * DAY + 60]] }, // 07:00 → 01:00
+  { id: 'fri', phase: 'half', ranges: [[5 * DAY + 690, 6 * DAY + 60]] }, // 11:30 → 01:00
   { id: 'sat', phase: 'crescent', ranges: [[6 * DAY + 690, 7 * DAY]] }, // 11:30 → 24:00
 ]
 
