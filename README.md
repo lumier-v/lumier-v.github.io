@@ -11,9 +11,17 @@ npm run build      # بناء للإنتاج في dist/
 npm run preview    # معاينة البناء
 ```
 
-## النشر — Cloudflare Pages
+## النشر — GitHub Pages
 
-الموقع يُبنى وينشر تلقائياً مع كل push على `main`.
+الموقع على `lumier-v.github.io` يُبنى وينشر تلقائياً مع كل push على `main`، عن طريق `.github/workflows/pages.yml`.
+
+**الإعداد مرة واحدة:** في GitHub → Settings → Pages → Source اختر **GitHub Actions**. بدونه يعرض GitHub ملفات المصدر نفسها بدل الموقع المبني، فتطلع الصفحة فاضية.
+
+لإعادة النشر بدون push: تبويب Actions → Deploy to GitHub Pages → Run workflow.
+
+## النشر البديل — Cloudflare
+
+الموقع يُبنى وينشر تلقائياً مع كل push على `main`، إذا كان المشروع مربوطاً بالمستودع.
 
 **الإعداد مرة واحدة** في لوحة Cloudflare → Workers & Pages → Create → Pages → Connect to Git:
 
