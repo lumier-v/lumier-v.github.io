@@ -12,6 +12,7 @@ export const T = {
   // chrome
   skipToContent: { ar: 'تخطي إلى المحتوى', en: 'Skip to content' },
   menu: { ar: 'القائمة', en: 'Menu' },
+  orderHere: { ar: 'اطلب هنا', en: 'Order Here' },
   menuShop: { ar: 'القائمة والمتجر', en: 'Menu & Shop' },
   driveThru: { ar: 'اطلب وأنت بسيارتك', en: 'Order from your car' },
   joinUs: { ar: 'سجّل وكن من عملائنا', en: 'Sign up and become a regular' },

@@ -10,7 +10,7 @@ import { view } from '@/lib/scroll'
 // The top bar is kept to the two things someone arrives wanting — what you
 // serve, and where you are. The menu lives off-site, so that one opens a tab.
 const LINKS: { href: string; key: Key; external?: boolean }[] = [
-  { href: CONTACT.menu, key: 'menu', external: true },
+  { href: CONTACT.menu, key: 'orderHere', external: true },
   { href: '#visit', key: 'visit' },
 ]
 
