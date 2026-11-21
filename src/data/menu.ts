@@ -160,7 +160,7 @@ export const CONTACT = {
   store: 'https://salla.sa/qamrahcoffee',
   /** The live menu. The page no longer carries its own copy. */
   menu: 'https://qamrahcoffee.hubstation.ai/',
-  maps: 'https://www.google.com/maps/search/?api=1&query=26.0235295,44.9579574',
+  maps: 'https://maps.app.goo.gl/5S79kyhsYquAPmPc7?g_st=ic',
   // Stated as floors, not snapshots: shown as "4.5+" and "150+" so they
   // stay true as the real figures grow, with no feed to keep in sync.
   ratingFloor: '4.5',
