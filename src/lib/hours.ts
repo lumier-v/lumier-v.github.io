@@ -19,18 +19,18 @@ const DAY = 1440
 
 export const SCHEDULE: Schedule[] = [
   {
-    id: 'sunWed',
-    phase: 'gibbous',
+    id: 'satThu',
+    phase: 'full',
     ranges: [
       [420, DAY], // Sun 07:00 → 24:00
       [DAY + 420, 2 * DAY],
       [2 * DAY + 420, 3 * DAY],
       [3 * DAY + 420, 4 * DAY],
+      [4 * DAY + 420, 5 * DAY], // Thu 07:00 → 24:00
+      [6 * DAY + 420, 7 * DAY], // Sat 07:00 → 24:00
     ],
   },
-  { id: 'thu', phase: 'full', ranges: [[4 * DAY + 420, 5 * DAY + 60]] }, // 07:00 → 01:00
-  { id: 'fri', phase: 'half', ranges: [[5 * DAY + 690, 6 * DAY + 60]] }, // 11:30 → 01:00
-  { id: 'sat', phase: 'crescent', ranges: [[6 * DAY + 690, 7 * DAY]] }, // 11:30 → 24:00
+  { id: 'fri', phase: 'half', ranges: [[5 * DAY + 690, 6 * DAY + 60]] }, // 11:30 → 01:00 (Sat)
 ]
 
 const ALL_RANGES: [number, number][] = SCHEDULE.flatMap((s) => s.ranges)

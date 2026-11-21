@@ -43,10 +43,8 @@ function WhatsApp({ className }: { className?: string }) {
 
 /** Day id → the two dictionary keys that describe it. */
 const HOUR_LABELS: Record<string, { day: Key; hours: Key }> = {
-  sunWed: { day: 'sunWed', hours: 'sunWedHours' },
-  thu: { day: 'thu', hours: 'thuHours' },
+  satThu: { day: 'satThu', hours: 'satThuHours' },
   fri: { day: 'fri', hours: 'friHours' },
-  sat: { day: 'sat', hours: 'satHours' },
 }
 
 export function Visit() {
@@ -165,9 +163,7 @@ export function Visit() {
             </div>
           </div>
 
-          {/* A fuller moon means a longer day: Thursday, seven to one, is full;
-              Sunday to Wednesday a gibbous whose shadow is Saturday's crescent
-              exactly; Friday half; Saturday, the shortest, the crescent. */}
+          {/* A fuller moon means a longer day: Saturday to Thursday, seven to midnight, is full; Friday, half. */}
           <div>
             {/* A small label like the menu's group labels, so it takes their body
                 face; the calligraphic display face doesn't hold up at this size.

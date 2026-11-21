@@ -77,14 +77,10 @@ export const T = {
   whatsapp: { ar: 'واتساب', en: 'WhatsApp' },
 
   // day labels
-  sunWed: { ar: 'الأحد – الأربعاء', en: 'Sun – Wed' },
-  thu: { ar: 'الخميس', en: 'Thursday' },
+  satThu: { ar: 'السبت – الخميس', en: 'Sat – Thu' },
   fri: { ar: 'الجمعة', en: 'Friday' },
-  sat: { ar: 'السبت', en: 'Saturday' },
-  sunWedHours: { ar: '٧ ص – ١٢ ص', en: '7am – 12am' },
-  thuHours: { ar: '٧ ص – ١ ص', en: '7am – 1am' },
+  satThuHours: { ar: '٧ ص – ١٢ ص', en: '7am – 12am' },
   friHours: { ar: '١١:٣٠ ص – ١ ص', en: '11:30am – 1am' },
-  satHours: { ar: '١١:٣٠ ص – ١٢ ص', en: '11:30am – 12am' },
 
   rights: { ar: 'قهوة مختصة في الغاط', en: 'Specialty coffee in Al Ghat' },
 } satisfies Record<string, Phrase>
