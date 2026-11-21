@@ -32,8 +32,8 @@ export const T = {
     en: 'From bean to cup, every step done with care',
   },
   heroSub: {
-    ar: 'نحمّص بُننا بإيدينا بدفعات صغيرة، ونجهز كل كوب أول ما تطلبه.',
-    en: 'We roast our beans by hand in small batches, and prepare every cup the moment you order it.',
+    ar: 'نحمّص بُننا بإيدينا، ونجهز كل كوب أول ما تطلبه.',
+    en: 'We roast our beans by hand, and prepare every cup the moment you order it.',
   },
   coffeeMenu: { ar: 'قائمة القهوة', en: 'Coffee Menu' },
   store: { ar: 'متجر قمرة', en: 'Qamrah Store' },
